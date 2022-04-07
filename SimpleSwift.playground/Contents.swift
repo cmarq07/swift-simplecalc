@@ -1,17 +1,83 @@
+import Foundation
+
 print("Welcome to the UW Calculator Playground")
 
 func calculate(_ args: [String]) -> Int {
-    return -1
+    let genericOperations = ["+", "-", "*", "/", "%"] // Generic operations
+    
+    if (args.contains(where: genericOperations.contains)) { // Contains one of the basic operators (+, -, *, etc.)
+        let left : Int = Int(args[0])!
+        let op : String = args[1]
+        let right : Int = Int(args[2])!
+        
+        if(op == "+") { // Addition
+            return left + right
+        } else if (op == "-") { // Substraction
+            return left - right
+        } else if (op == "*") { // Multiplication
+            return left * right
+        } else if (op == "/") { // Division
+            return left / right
+        } else { // Modulus
+            let whole : Int = left / right
+            let calc : Double = Double(left) / Double(right)
+            var result : Double = calc - Double(whole)
+            result = result * Double(right)
+            return Int(result)
+        }
+    } else { // Complex Calculations (count, avg, fact, etc.)
+        if(args.contains("count"))  { // Count
+            if(args.count == 1) { // Base case where the only thing there is the operation
+                return 0
+            }
+            
+            var counter = 0
+            for _ in 0...args.count - 2 {
+                
+                counter += 1
+            }
+            return counter
+        } else if(args.contains("avg")) { // Average
+            if(args.count == 1) { // Base case where the only thing there is the operation
+                return 0
+            }
+            
+            var sum : Int = 0
+            var counter : Int = 0
+            for index in 0...args.count - 2 {
+                sum += Int(args[index]) ?? 0
+                counter += 1
+            }
+            return sum / counter
+        } else { // Factorial
+            if(args.count == 1) { // Base case where the only thing there is the operation
+                return 0
+            } else if(args[0] == "0") { // 0 Factorial is 1
+                return 1
+            }
+            
+            let num : Int = Int(args[0]) ?? 0
+            var result = num
+            for index in stride(from: num - 1, to: 1, by: -1) {
+              result *= index
+            }
+            
+            return result
+            
+        }
+    }
 }
 
 func calculate(_ arg: String) -> Int {
-    return -1
+    let args = arg.components(separatedBy: " ")
+    let result : Int = calculate(args)
+    return result
 }
 
 // -------------------------------------------
 // All of these expressions should return true
 // if you have implemented calculate() correctly
-//
+
 calculate(["2", "+", "2"]) == 4
 calculate(["4", "+", "4"]) == 8
 calculate(["2", "-", "2"]) == 0
@@ -53,7 +119,6 @@ calculate("5 fact") == 120
 
 // Implement calculate([String]) and calculate(String)
 // to handle negative numbers
-/*
 calculate(["2", "+", "-2"]) == 0
 calculate(["2", "-", "-2"]) == 4
 calculate(["2", "*", "-2"]) == -4
@@ -68,16 +133,81 @@ calculate("2 - -2") == 4
 calculate("-2 / 2") == -1
 
 calculate("1 -2 3 -4 5 count") == 5
-*/
  
 // Implement calculate([String]) and calculate(String)
 // to use floating-point values
-/*
+
+
 func calculate(_ args: [String]) -> Double {
-    return -1.0
+    let genericOperations = ["+", "-", "*", "/", "%"] // Generic operations
+    
+    if (args.contains(where: genericOperations.contains)) { // Contains one of the basic operators (+, -, *, etc.)
+        let left : Double = Double(args[0])!
+        let op : String = args[1]
+        let right : Double = Double(args[2])!
+        
+        if(op == "+") { // Addition
+            return left + right
+        } else if (op == "-") { // Substraction
+            return left - right
+        } else if (op == "*") { // Multiplication
+            return left * right
+        } else if (op == "/") { // Division
+            return left / right
+        } else { // Modulus
+            let whole : Double = left / right
+            let calc : Double = Double(left) / Double(right)
+            var result : Double = calc - Double(whole)
+            result = result * Double(right)
+            return Double(result)
+        }
+    } else { // Complex Calculations (count, avg, fact, etc.)
+        if(args.contains("count"))  { // Count
+            if(args.count == 1) { // Base case where the only thing there is the operation
+                return Double(0)
+            }
+            
+            var counter : Double = 0
+            for _ in 0...args.count - 2 {
+                
+                counter += 1
+            }
+            return counter
+        } else if(args.contains("avg")) { // Average
+            if(args.count == 1) { // Base case where the only thing there is the operation
+                return 0
+            }
+            
+            var sum : Int = 0
+            var counter : Int = 0
+            for index in 0...args.count - 2 {
+                sum += Int(args[index]) ?? 0
+                counter += 1
+            }
+            return Double(sum / counter)
+        } else { // Factorial
+            if(args.count == 1) { // Base case where the only thing there is the operation
+                return 0
+            } else if(args[0] == "0") { // 0 Factorial is 1
+                return 1
+            }
+            
+            let num : Int = Int(args[0]) ?? 0
+            var result = num
+            for index in stride(from: num - 1, to: 1, by: -1) {
+              result *= index
+            }
+            
+            return Double(result)
+            
+        }
+    }
 }
+
 func calculate(_ arg: String) -> Double {
-    return -1.0
+    let args = arg.components(separatedBy: " ")
+    let result : Double = calculate(args)
+    return result
 }
 
 calculate(["2.0", "+", "2.0"]) == 4.0
@@ -87,4 +217,3 @@ calculate(["2.5", "*", "2.5"]) == 6.25
 calculate(["2.0", "/", "2.0"]) == 1.0
 calculate(["2.0", "%", "2.0"]) == 0.0
 calculate("1.0 2.0 3.0 4.0 5.0 count") == 5
-*/
